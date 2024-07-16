@@ -9,6 +9,7 @@
 .presentation {
     flex-direction: column;
     justify-content: center;
+    text-align: center;
 }
 .presentation h1 + h2 {
     margin: 0;
@@ -21,10 +22,10 @@
     height: 0;
     margin: 0;
     overflow: hidden;
-    transition: height .5s ease;
+    transition: height .25s ease;
 }
 .section:nth-child(2n) {
-    background: #00000085;
+    background: #00000055;
 }
 .section > .avatar {
     width: calc(25% - 1rem * 2);
@@ -38,4 +39,31 @@
     padding: 1rem;
     width: calc(55% - 1rem * 2);
     height: calc(100% - 1rem * 2);
+}
+.buttons #up {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.buttons #down {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+@media screen and (max-width: 1195px) { /* For mobiles */
+    .section {
+        flex-direction: column;
+        justify-content: center;
+    }
+    .section .avatar {
+        width: 50%;
+    }
+    .section > div {
+        width: calc(100% - 1rem * 2);
+        height: calc(45% - 1rem * 2);
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
 }

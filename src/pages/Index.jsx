@@ -3,42 +3,38 @@ import styles from "../cdn/css/index.module.css";
 
 function Index() {
     const [sections, setSections] = useState([]);
+    const [currentSection, setCurrentSection] = useState(-1);
 
     useEffect(() => {
         fetch("/messages.json")
         .then(response => response.json())
-        .then(response => setSections(response));
-
-        let currentSection = 0;
-
-        function scrollToSection(index) {
-            document.querySelectorAll('section').forEach((section, i) => {
-                if (i === index) {
-                    section.style.height = `100vh`;
-                } else {
-                    section.style = ``;
-                }
-                
-            });
-        }
-
-        scrollToSection(currentSection);
-
-        window.addEventListener('wheel', (event) => {
-            if (event.deltaY > 0 && currentSection < document.querySelectorAll('section').length - 1) {
-                currentSection++;
-                scrollToSection(currentSection);
-            } else if (event.deltaY < 0 && currentSection > 0) {
-                currentSection--;
-                scrollToSection(currentSection);
-            }
+        .then(response => {
+            setSections(response);
+            setCurrentSection(0);
         });
     }, []);
+
+    useEffect(() => {
+        window.addEventListener('wheel', (event) => {
+            if (event.deltaY > 0 && currentSection < sections.length) {
+                setCurrentSection(currentSection + 1);
+            } else if (event.deltaY < 0 && currentSection > 0) {
+                setCurrentSection(currentSection - 1);
+            }
+        }); 
+        document.querySelectorAll("section").forEach((section, i) => {
+            if (i === currentSection) {
+                section.style.height = `100vh`;
+            } else {
+                section.style = ``;
+            }
+        });
+    }, [currentSection]);
 
     return (<div className={styles.root}>
         <section className={`${styles.presentation} ${styles.section}`}>
             <h1>Cette page est un mémorial pour Doc Gamer.</h1>
-            <h2>Ici sont regrouper tous les messages de ses abonnées</h2>
+            <h2>Ici sont regroupé tous les messages de ses abonnés</h2>
         </section>
         {
             sections.map((message) =>
@@ -51,6 +47,17 @@ function Index() {
                 </section>
             )
         }
+        <div className={styles.buttons}>
+            <button id={styles.up} style={{display: (currentSection === 0 ? "none" : "unset")}} onClick={() => {
+                if (currentSection === 0) return;
+                setCurrentSection(currentSection - 1);
+            }}>
+                ↑
+            </button>
+            <button id={styles.down} style={{display: (currentSection === sections.length ? "none" : "unset")}} onClick={() => setCurrentSection(currentSection + 1)}>
+                ↓
+            </button>
+        </div>
     </div>)
 }
 
