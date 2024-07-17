@@ -30,25 +30,28 @@ function Index() {
             }
         });
     }, [currentSection, sections.length]);
+
+    const playSound = () => {
+        const soundlist = [
+            "/cdn/audio/Wow.mp3",
+            "/cdn/audio/Huh.mp3",
+            "/cdn/audio/RIZZ.mp3",
+            "/cdn/audio/Shocked.mp3",
+            "/cdn/audio/AAAAUUUGHHHH.mp3",
+            "/cdn/audio/Whip.mp3",
+        ]
+        document.getElementById(styles.sound).volume = .25;
+        document.getElementById(styles.sound).src = soundlist[Math.floor(Math.random() * soundlist.length)];
+        document.getElementById(styles.sound).play();
+    }
+
     return (<div className={styles.root}>
         <section className={styles.presentation}>
             <div>
                 <h1>Doc Gamer</h1>
                 <h2>Ici sont regroupé tous les messages de ses abonnés</h2>
             </div>
-            <img onMouseEnter={() => {
-                const soundlist = [
-                    "/cdn/audio/Wow.mp3",
-                    "/cdn/audio/Huh.mp3",
-                    "/cdn/audio/RIZZ.mp3",
-                    "/cdn/audio/Shocked.mp3",
-                    "/cdn/audio/AAAAUUUGHHHH.mp3",
-                    "/cdn/audio/Whip.mp3",
-                ]
-                document.getElementById(styles.sound).volume = .25;
-                document.getElementById(styles.sound).src = soundlist[Math.floor(Math.random() * soundlist.length)];
-                document.getElementById(styles.sound).play();
-            }} src="https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024" alt="Avatar de Doc Gamer" />
+            <img onMouseEnter={playSound} onClick={playSound} src="https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024" alt="Avatar de Doc Gamer" />
             <p>Site fait par Sleezzi</p>
         </section>
         {

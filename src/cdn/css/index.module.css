@@ -86,7 +86,7 @@
     display: none;
 }
 
-@media screen and (max-width: 1195px) { /* For mobiles */
+@media screen and (max-width: 1000px) { /* For mobiles */
     .presentation {
         flex-direction: column-reverse;
         justify-content: center;
@@ -109,9 +109,17 @@
     }
     .section > div {
         width: calc(100% - 1rem * 2);
-        height: calc(45% - 1rem * 2);
+        height: calc(40% - 1rem * 2);
         justify-content: center;
         align-items: center;
         text-align: center;
+    }
+    .section h1 {
+        font-size: 175%;
+        margin: 0;
+    }
+    .section h3 {
+        font-size: 100%;
+        margin: 0;
     }
 }
