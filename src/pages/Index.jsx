@@ -52,7 +52,7 @@ function Index() {
                 <h2>Ici sont regroupé tous les messages de ses abonnés</h2>
             </div>
             <img onMouseEnter={playSound} onClick={playSound} src="https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024" alt="Avatar de Doc Gamer" />
-            <p>Site fait par Sleezzi</p>
+            <p>Site fait par<a href="http://sleezzi.fr" target="_blank" rel="noopener noreferrer">Sleezzi</a></p>
         </section>
         {
             sections.map((message) =>
