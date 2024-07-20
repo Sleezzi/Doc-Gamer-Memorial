@@ -4,7 +4,7 @@ import styles from "../cdn/css/index.module.css";
 function Index() {
     const [sections, setSections] = useState([]);
     const [currentSection, setCurrentSection] = useState(-1);
-
+    
     useEffect(() => {
         fetch("/messages.json")
         .then(response => response.json())
@@ -13,7 +13,7 @@ function Index() {
             setCurrentSection(0);
         });
     }, []);
-
+    
     useEffect(() => {
         window.addEventListener('wheel', (event) => {
             if (event.deltaY > 0 && currentSection < sections.length) {
@@ -30,8 +30,22 @@ function Index() {
             }
         });
     }, [currentSection, sections.length]);
-
-    const playSound = () => {
+    
+    const isMobile = () => {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        
+        if (/android/i.test(userAgent) || 
+            (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) || 
+            /windows phone/i.test(userAgent)) {
+            return true;
+        }
+        
+        return window.innerWidth <= 800 && window.innerHeight <= 600;
+    }
+    
+    const handleMouseEnter = (e) => {
+        if (isMobile()) return;
+        if (document.getElementById(styles.sound).isPlaying) return;
         const soundlist = [
             "/cdn/audio/Wow.mp3",
             "/cdn/audio/Huh.mp3",
@@ -41,17 +55,36 @@ function Index() {
             "/cdn/audio/Whip.mp3",
         ]
         document.getElementById(styles.sound).volume = .25;
-        document.getElementById(styles.sound).src = soundlist[Math.floor(Math.random() * soundlist.length)];
-        document.getElementById(styles.sound).play();
+        document.getElementById(styles.sound).src = "";
+        const img = e.target;
+        img.classList.add(styles.fade);
+        
+        img.addEventListener('transitionend', () => {
+            document.getElementById(styles.sound).src = soundlist[Math.floor(Math.random() * soundlist.length)];
+            img.src = `/cdn/img/doc_${Math.floor(Math.random() * 3)+1}.png`;
+            if (img.classList.contains(styles.fade)) img.classList.remove(styles.fade);
+        }, { once: true });
     }
-
+    const handleMouseLeave = (e) => {
+        if (isMobile()) return;
+        const img = e.target;
+        img.classList.add(styles.fade);
+        
+        img.addEventListener('transitionend', () => {
+            img.src = `https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024`;
+            if (img.classList.contains(styles.fade)) img.classList.remove(styles.fade);
+        }, { once: true });
+    }
+    
     return (<div className={styles.root}>
         <section className={styles.presentation}>
             <div>
                 <h1>Doc Gamer</h1>
-                <h2>Ici sont regroupé tous les messages de ses abonnés</h2>
+                <h2>Ici sont regroupés tous les messages de ses abonnés</h2>
             </div>
-            <img onMouseEnter={playSound} onClick={playSound} src="https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024" alt="Avatar de Doc Gamer" />
+            <div class={styles.imageContainer}>
+                <img className={styles.logo} onMouseEnter={handleMouseEnter} onMouseDown={handleMouseEnter} onMouseLeave={handleMouseLeave} onMouseUp={handleMouseLeave} src="https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024" alt="Avatar de Doc Gamer" />
+            </div>
             <p>Site fait par<a href="http://sleezzi.fr" target="_blank" rel="noopener noreferrer">Sleezzi</a></p>
         </section>
         {
@@ -77,7 +110,7 @@ function Index() {
             </button>
         </div>
         <audio autoPlay id={styles.sound} />
-    </div>)
+    </div>);
 }
 
 export default Index;
