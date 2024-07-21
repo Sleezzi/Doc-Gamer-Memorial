@@ -30,7 +30,7 @@ function Index() {
                 section.style = ``;
             }
         });
-    }, [currentSection, sections.length]);
+    }, [currentSection, document.querySelectorAll("section").length]);
     
     const isMobile = () => {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -103,7 +103,7 @@ function Index() {
             }}>
                 ↑
             </button>
-            <button id={styles.down} style={{display: (currentSection === sections.length ? "none" : "unset")}} onClick={() => setCurrentSection(currentSection + 1)}>
+            <button id={styles.down} style={{display: (currentSection === document.querySelectorAll("section").length - 1 ? "none" : "unset")}} onClick={() => setCurrentSection(currentSection + 1)}>
                 ↓
             </button>
         </div>
