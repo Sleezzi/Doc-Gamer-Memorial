@@ -4,6 +4,7 @@ import styles from "../cdn/css/index.module.css";
 function Index() {
     const [sections, setSections] = useState([]);
     const [currentSection, setCurrentSection] = useState(-1);
+    const [imageIndex, setImageIndex] = useState(0);
     
     useEffect(() => {
         fetch("/messages.json")
@@ -16,7 +17,7 @@ function Index() {
     
     useEffect(() => {
         window.addEventListener('wheel', (event) => {
-            if (event.deltaY > 0 && currentSection < sections.length) {
+            if (event.deltaY > 0 && currentSection < document.querySelectorAll("section").length-1) {
                 setCurrentSection(currentSection + 1);
             } else if (event.deltaY < 0 && currentSection > 0) {
                 setCurrentSection(currentSection - 1);
@@ -33,17 +34,17 @@ function Index() {
     
     const isMobile = () => {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        
-        if (/android/i.test(userAgent) || 
+        if (
+            /android/i.test(userAgent) || 
             (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) || 
-            /windows phone/i.test(userAgent)) {
+            /windows phone/i.test(userAgent)
+        ) {
             return true;
         }
-        
         return window.innerWidth <= 800 && window.innerHeight <= 600;
     }
     
-    const handleMouseEnter = (e) => {
+    const handleClick = (e) => {
         if (isMobile()) return;
         if (document.getElementById(styles.sound).isPlaying) return;
         const soundlist = [
@@ -59,19 +60,13 @@ function Index() {
         const img = e.target;
         img.classList.add(styles.fade);
         
-        img.addEventListener('transitionend', () => {
-            document.getElementById(styles.sound).src = soundlist[Math.floor(Math.random() * soundlist.length)];
-            img.src = `/cdn/img/doc_${Math.floor(Math.random() * 3)+1}.png`;
-            if (img.classList.contains(styles.fade)) img.classList.remove(styles.fade);
-        }, { once: true });
-    }
-    const handleMouseLeave = (e) => {
-        if (isMobile()) return;
-        const img = e.target;
-        img.classList.add(styles.fade);
-        
-        img.addEventListener('transitionend', () => {
-            img.src = `https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024`;
+        img.addEventListener("transitionend", () => {
+            if (imageIndex === 3) {
+                setImageIndex(0);
+            } else {
+                document.getElementById(styles.sound).src = soundlist[Math.floor(Math.random() * soundlist.length)];
+                setImageIndex(imageIndex+1);
+            }
             if (img.classList.contains(styles.fade)) img.classList.remove(styles.fade);
         }, { once: true });
     }
@@ -83,7 +78,7 @@ function Index() {
                 <h2>Ici sont regroupés tous les messages de ses abonnés</h2>
             </div>
             <div class={styles.imageContainer}>
-                <img className={styles.logo} onMouseEnter={handleMouseEnter} onMouseDown={handleMouseEnter} onMouseLeave={handleMouseLeave} onMouseUp={handleMouseLeave} src="https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024" alt="Avatar de Doc Gamer" />
+                <img className={styles.logo} onClick={handleClick} src={imageIndex === 0 ? "https://cdn.discordapp.com/avatars/595272750021476362/4ea06435b98c7d2b6ad164091bf0f474.png?size=1024" : `/cdn/img/doc_${imageIndex}.png`} alt="Avatar de Doc Gamer" />
             </div>
             <p>Site fait par<a href="http://sleezzi.fr" target="_blank" rel="noopener noreferrer">Sleezzi</a></p>
         </section>
@@ -98,6 +93,9 @@ function Index() {
                 </section>
             )
         }
+        <section className={`${styles.section} ${styles.end}`}>
+            <h2>Tqt à la fin de ta prépa tu sauras gérer tes revenus Twitch et ta YouTube money</h2>
+        </section>
         <div className={styles.buttons}>
             <button id={styles.up} style={{display: (currentSection === 0 ? "none" : "unset")}} onClick={() => {
                 if (currentSection === 0) return;
