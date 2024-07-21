@@ -78,6 +78,7 @@
 }
 section.end {
     justify-content: center;
+    text-align: center;
 }
 .buttons #up {
     height: 2.5rem;
