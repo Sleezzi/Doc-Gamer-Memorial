@@ -1,9 +1,17 @@
-:root {
+:root[theme="dark"] {
     --background: #070031;
-    --alt-background: #0f0833;
+    --alt-background: #090421;
     --alt-2-background: #12045c;
     --main-color: #200e7e;
     --color: #FFF;
+    --main-font: "Kanit", sans-serif;
+}
+:root[theme="light"] {
+    --background: #ffffff;
+    --alt-background: #e2e2e2;
+    --alt-2-background: #bebebe;
+    --main-color: #5f5c6b;
+    --color: #000;
     --main-font: "Kanit", sans-serif;
 }
 body {

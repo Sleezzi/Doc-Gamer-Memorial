@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import {
     NotFound,
@@ -11,6 +11,7 @@ import "./cdn/css/main.css";
 
 function App() {
     const location = useLocation();
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
 
     useEffect(() => {
         if (location.pathname.split("/").pop().length > 0) {
@@ -20,10 +21,14 @@ function App() {
             document.title = `Doc Gamer Memorial`;
         }
     }, [location.pathname]);
+    useEffect(() => {
+        document.querySelector("html").setAttribute("theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
 
     return (<>
         <Routes>
-            <Route path="" element={<Index />} />
+            <Route path="" element={<Index theme={theme} setTheme={setTheme} />} />
             <Route path="*" element={<NotFound />}/>
         </Routes>
     </>);

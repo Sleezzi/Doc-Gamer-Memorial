@@ -21,6 +21,23 @@
     margin: 0;
     padding: 0;
 }
+.presentation > .theme {
+    position: absolute;
+    top: .25rem;
+    left: .25rem;
+    margin: 0;
+    padding: 0;
+    height: 2.5rem;
+    width: 2.5rem;
+    overflow: hidden;
+    background: none;
+    border: none;
+    border-radius: 100%;
+}
+.theme > img {
+    height: 100%;
+    width: 100%;
+}
 .presentation > div:nth-child(1) {
     display: flex;
     justify-content: center;
@@ -61,7 +78,7 @@
     transition: height .25s ease;
 }
 .section:nth-child(2n) {
-    background: #00000055;
+    background: var(--alt-background);
 }
 .section > .avatar {
     width: calc(25% - 1rem * 2);

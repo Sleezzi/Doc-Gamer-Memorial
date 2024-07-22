@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../cdn/css/index.module.css";
 
-function Index() {
+function Index({ theme, setTheme }) {
     const [sections, setSections] = useState([]);
     const [currentSection, setCurrentSection] = useState(-1);
     const [imageIndex, setImageIndex] = useState(0);
@@ -73,6 +73,9 @@ function Index() {
     
     return (<div className={styles.root}>
         <section className={styles.presentation}>
+            <button className={styles.theme}>
+                <img src={`/cdn/img/icon/${theme === "dark" ? "dark" : "light"}.png`} alt="Theme" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} />
+            </button>
             <div>
                 <h1>Doc Gamer</h1>
                 <h2>Ici sont regroupés tous les messages de ses abonnés</h2>
