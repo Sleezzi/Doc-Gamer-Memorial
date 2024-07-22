@@ -45,8 +45,8 @@ function Index({ theme, setTheme }) {
     }
     
     const handleClick = (e) => {
-        if (isMobile()) return;
-        if (document.getElementById(styles.sound).isPlaying) return;
+        const img = e.target;
+        if (img.classList.contains(styles.fade) || isMobile()) return;
         const soundlist = [
             "/cdn/audio/Wow.mp3",
             "/cdn/audio/Huh.mp3",
@@ -57,11 +57,10 @@ function Index({ theme, setTheme }) {
         ]
         document.getElementById(styles.sound).volume = .25;
         document.getElementById(styles.sound).src = "";
-        const img = e.target;
         img.classList.add(styles.fade);
         
         img.addEventListener("transitionend", () => {
-            if (imageIndex === 3) {
+            if (imageIndex === 6) {
                 setImageIndex(0);
             } else {
                 document.getElementById(styles.sound).src = soundlist[Math.floor(Math.random() * soundlist.length)];
