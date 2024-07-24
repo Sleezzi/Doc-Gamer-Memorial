@@ -90,7 +90,7 @@ function Index({ theme, setTheme }) {
                     <img src={message.avatar || "/cdn/img/icon/avatar.png"} className={styles.avatar} alt={`Avatar de ${message.name}`} />
                     <div>
                         <h1>{message.name}</h1>
-                        <h3>{message.message.replaceAll("\n", "<br>")}</h3>
+                        <h3>{message.message.split("\n").map(msg => <>{msg}<br/></>)}</h3>
                     </div>
                 </section>
             )

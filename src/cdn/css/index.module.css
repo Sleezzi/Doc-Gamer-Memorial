@@ -121,6 +121,7 @@ section.end {
     .presentation {
         flex-direction: column-reverse;
         justify-content: center;
+        text-align: center;
     }
     .presentation .imageContainer {
         height: 30%;
